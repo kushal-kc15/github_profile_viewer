@@ -9,7 +9,7 @@ def create_superuser_account(apps,schema_editor):
         password = make_password("admin123"),
         is_superuser = True,
         is_staff = True,
-        is_active = True
+        is_active = True,
     )
     print("superuser created")
 

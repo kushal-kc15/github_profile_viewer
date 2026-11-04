@@ -1,7 +1,10 @@
+import io
+
 from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
@@ -89,3 +92,29 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, "registration/signup.html", {"form": form})
+
+from django.http import HttpResponse, HttpResponseBadRequest
+from .temp import render_card
+def visualize(request):
+    username=request.GET.get("username", "").strip()
+    if not username:
+        return HttpResponseBadRequest("Missing 'username' parameter.")
+    try:
+        profile = services.get_user(username)
+        repos = services.get_repos(profile["username"])
+        img = render_card(
+            username=profile["username"],
+            name=profile.get("name", ""),
+            bio=profile.get("bio", ""),
+            public_repos=profile.get("public_repos", 0),
+            followers=profile.get("followers", 0),
+            following=profile.get("following", 0),
+            avatar_url=profile.get("avatar_url", ""),
+            repos=repos,
+        )
+    except services.GitHubError as exc:
+        return HttpResponseBadRequest(str(exc))
+    buffer=io.BytesIO()
+    img.save(buffer, format="PNG")
+    buffer.seek(0)
+    return HttpResponse(buffer.getvalue(), content_type="image/png")

@@ -74,9 +74,10 @@ def get_user(username):
             "bio": raw_data.get("bio") or "",           # may be null
             "public_repos": raw_data.get("public_repos", 0),
             "followers": raw_data.get("followers", 0),
+            "following": raw_data.get("following", 0),
             "html_url": raw_data.get("html_url", ""),
         }
-        cache.set(cache_key, data, 300)  # 300 seconds cache bonus
+        cache.set(cache_key, data, 300)
     return data
 
 
