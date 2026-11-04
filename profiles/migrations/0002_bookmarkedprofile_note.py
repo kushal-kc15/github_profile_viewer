@@ -14,8 +14,6 @@ def create_superuser_account(apps,schema_editor):
     print("superuser created")
 
 
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
