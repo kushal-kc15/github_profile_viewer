@@ -132,4 +132,4 @@ CACHES = {
         'LOCATION': 'github-profile-cache',
     }
 }
-CORS_ALLOWED_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
