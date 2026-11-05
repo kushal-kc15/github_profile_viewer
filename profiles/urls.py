@@ -9,4 +9,5 @@ urlpatterns = [
     path("bookmarks/<int:pk>/note/", views.bookmark_update_note, name="bookmark_update_note"),
     path("signup/", views.signup, name="signup"),
     path("visualize/", views.visualize, name="visualize"),
+    path("api/", views.api, name="api"),
 ]

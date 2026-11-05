@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
@@ -29,6 +30,24 @@ def search(request):
             messages.error(request, str(exc))
 
     return render(request, "profiles/search.html", context)
+
+
+def api(request):
+    query = request.GET.get("q", "").strip()
+    context = {"query": query, "profile": None, "repos": [], "is_bookmarked": False}
+    if query:
+        try:
+            profile = services.get_user(query)
+            context["profile"] = profile
+            context["repos"] = services.get_repos(profile["username"])
+            if request.user.is_authenticated:
+                context["is_bookmarked"] = BookmarkedProfile.objects.filter(
+                    user=request.user, username__iexact=profile["username"]
+                ).exists()
+        except services.GitHubError as exc:  # catches all 4 error types
+            messages.error(request, str(exc))
+
+    return JsonResponse(context)
 
 
 @login_required
