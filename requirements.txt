@@ -9,3 +9,4 @@ tzdata==2026.6
 urllib3==2.8.0
 whitenoise==6.8.0
 pillow==10.4.0
+corsheaders==4.3.0
