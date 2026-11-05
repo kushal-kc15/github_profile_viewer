@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'profiles',
+    'corsheaders',  
 ]
 
 MIDDLEWARE = [
@@ -42,6 +43,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Add this line for CORS
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -130,3 +132,4 @@ CACHES = {
         'LOCATION': 'github-profile-cache',
     }
 }
+CORS_ALLOWED_ALL_ORIGINS = True
